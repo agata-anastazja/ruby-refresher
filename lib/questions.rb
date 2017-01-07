@@ -147,43 +147,56 @@ end
 # . e.g. the array ['cat', 'dog', 'fish'] becomes
 # ['a', 'c', 'd', 'f', 'g', 'h', 'i', 'o', 's', 't']
 def get_all_letters_in_array_of_words(array)
+  new_array = []
+  array.each{|elem| new_array.push(elem.split(//))}
+  new_array.flatten.sort
 end
 
 # swap the keys and values in a hash. e.g.
 # {'a' => 'b', 'c' => 'd'} becomes
 # {'b' => 'a', 'd' => 'c'}
 def swap_keys_and_values_in_a_hash(hash)
+  hash.invert
 end
 
 # in a hash where the keys and values are all numbers
 # add all the keys and all the values together, e.g.
 # {1 => 1, 2 => 2} becomes 6
 def add_together_keys_and_values(hash)
+  hash.to_a.flatten.reduce(:+)
 end
 
 # take out all the capital letters from a string
 # so 'Hello JohnDoe' becomes 'ello ohnoe'
 def remove_capital_letters_from_string(string)
+  string.gsub(/[A-Z]/, '')
 end
 
 # round up a float up and convert it to an Integer,
 # so 3.214 becomes 4
 def round_up_number(float)
+  float.ceil
 end
 
 # round down a float up and convert it to an Integer,
 # so 9.52 becomes 9
 def round_down_number(float)
+  float.to_int
 end
 
 # take a date and format it like dd/mm/yyyy, so Halloween 2013
 # becomes 31/10/2013
 def format_date_nicely(date)
+  nice_date = date.day.to_s + "/" + date.month.to_s + "/" + date.year.to_s
 end
 
 # get the domain name *without* the .com part, from an email address
 # so alex@makersacademy.com becomes makersacademy
 def get_domain_name_from_email_address(email)
+  email = email.split(//)
+  start_index = email.find_index {|elem| elem == "@"} + 1
+  end_index = email.find_index {|elem| elem == "."} - start_index
+  email[start_index, end_index].join
 end
 
 # capitalize the first letter in each word of a string,
@@ -192,26 +205,34 @@ end
 # 'the lion the witch and the wardrobe' becomes
 # 'The Lion the Witch and the Wardrobe'
 def titleize_a_string(string)
+  exceptions = ['A', 'And', 'The']
+  arr = string.split(' ').map{|x| x.capitalize!}
+  arr[0] + ' ' + ((arr[1, arr.length]).map{|x| exceptions.include?(x)? x.downcase : x}.join(" "))
 end
 
 # return true if a string contains any special characters
 # where 'special character' means anything apart from the letters
 # a-z (uppercase and lower) or numbers
 def check_a_string_for_special_characters(string)
+  string.gsub!(/[a-zA-Z\d]/, "")!=""
 end
 
 # get the upper limit of a range. e.g. for the range 1..20, you
 # should return 20
 def get_upper_limit_of(range)
+  range.to_a.last
 end
 
 # should return true for a 3 dot range like 1...20, false for a
 # normal 2 dot range
 def is_a_3_dot_range?(range)
+  range.to_a.last != range.end
 end
 
 # get the square root of a number
 def square_root_of(number)
+  Math.sqrt(number)
+
 end
 
 # count the number of words in a file
