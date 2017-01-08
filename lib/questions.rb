@@ -303,7 +303,37 @@ end
 # implement fizzbuzz without modulo, i.e. the % method
 # go from 1 to 100
 # (there's no RSpec test for this one)
+def moduloo(n, dividor)
+   n - (n/dividor)*dividor
+end
+
+def fizzbuzz
+  (1..100).map { |n|
+    fizz = 3
+    buzz = 5
+    case [moduloo(n,fizz), moduloo(n, buzz)].map(&:zero?)
+      when [true, true]
+        "FizzBuzz"
+      when [true, false]
+        "Fizz"
+      when [false, true]
+        "Buzz"
+      else
+        n
+      end
+  }
+end
+
+
+
+
+
 def fizzbuzz_without_modulo
+  fizz = 3
+  buzz = 5
+  1.upto(100) { |i|
+
+  }
 end
 
 # print the lyrics of the song 99 bottles of beer on the wall
