@@ -30,8 +30,8 @@ end
 # [['Bob', 'Clive'], ['Bob', 'Dave'], ['Clive', 'Dave']]
 # make sure you don't have the same pairing twice,
 def every_possible_pairing_of_students(array)
-  new_array = []
-  array.each_cons(2) {|elem| new_array.push(elem)}
+  array = array.permutation(2).to_a
+  array.map {|elem| elem.sort}.uniq
 end
 
 # discard the first 3 elements of an array,
@@ -237,6 +237,9 @@ end
 
 # count the number of words in a file
 def word_count_a_file(file_path)
+  file = File.open(file_path, "r")
+  contents = file.read
+  contents.split(' ').length
 end
 
 # --- tougher ones ---
@@ -245,12 +248,17 @@ end
 # called call_method_from_string('foobar')
 # the method foobar should be invoked
 def call_method_from_string(str_method)
+  str_method()
 end
 
 # return true if the date is a uk bank holiday for 2014
 # the list of bank holidays is here:
 # https://www.gov.uk/bank-holidays
 def is_a_2014_bank_holiday?(date)
+  bank_holidays = ["26/12", "25/12", "25/8", "26/5",
+                  "5/5", "21/4", "18/4", "1/1"]
+  date = date.day.to_s + "/" + date.month.to_s
+  bank_holidays.include?(date)
 end
 
 # given your birthday this year, this method tells you
@@ -258,6 +266,11 @@ end
 # e.g. january 1st, will next be a friday in 2016
 # return the day as a capitalized string like 'Friday'
 def your_birthday_is_on_a_friday_in_the_year(birthday)
+  date = Time.new(birthday.year + 1, birthday.month, birthday.day)
+  while date.strftime("%A") != "Friday"
+    date = Time.new(date.year + 1, birthday.month, birthday.day)
+  end
+  date.year
 end
 
 # in a file, total the number of times words of different lengths
@@ -266,6 +279,25 @@ end
 # and 1 that is 4 letters long. Return it as a hash in the format
 # word_length => count, e.g. {2 => 1, 3 => 5, 4 => 1}
 def count_words_of_each_length_in_a_file(file_path)
+  h = {}
+  file = File.open(file_path, "r")
+
+  file.each_line { |line|
+    line.gsub!(/[^a-zA-Z]/, " ")
+    words = line.split(' ')
+    words_lengths = []
+    words_lengths = words.map { |word|
+      word.length
+    }
+    words_lengths.each { |length|
+      if h.has_key?(length)
+        h[length] = h[length] + 1
+      else
+        h[length] = 1
+      end
+    }
+  }
+  h
 end
 
 # implement fizzbuzz without modulo, i.e. the % method
