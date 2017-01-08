@@ -30,8 +30,8 @@ end
 # [['Bob', 'Clive'], ['Bob', 'Dave'], ['Clive', 'Dave']]
 # make sure you don't have the same pairing twice,
 def every_possible_pairing_of_students(array)
-  array = array.permutation(2).to_a
-  array.map {|elem| elem.sort}.uniq
+  array = array.combination(2).to_a
+
 end
 
 # discard the first 3 elements of an array,
@@ -312,5 +312,28 @@ end
 # beer on the wall, and print 'no more bottles of beer on the wall'
 # at the end.
 # (there's no RSpec test for this one)
+
+class Fixnum
+def bottles
+  case self
+    when 0 then "no more bottles"
+    when 1 then "one bottle"
+    else    "#{self} bottles"
+  end
+end
+end
+
 def ninety_nine_bottles_of_beer
+  99.downto(0) do |n|
+    puts "#{n.bottles.capitalize} of beer on the wall, #{n.bottles} of
+  beer."
+    if n > 0
+      puts "Take one down and pass it around, #{(n-1).bottles} of beer on
+  the wall."
+      puts
+    else
+      puts "Go to the store and buy some more, #{99.bottles} of beer on
+  the wall."
+    end
+  end
 end
